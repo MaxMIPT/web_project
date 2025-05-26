@@ -1,30 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Box,
+  Heading,
+  List,
+  ListItem,
+  Image,
+  Text,
+  Button,
+  Flex,
+  Link,
+  HStack,
+} from "@chakra-ui/react";
+import { TimeIcon } from "@chakra-ui/icons";
 
 export default function FavoritesPage({ favorites, onRemoveFavorite }) {
   return (
-    <div>
-      <h1>Избранное</h1>
-      <ul>
+    <Box>
+      <Heading as="h1" mb={6} fontSize="2xl" fontWeight="medium">
+        Избранное
+      </Heading>
+      <List spacing={5}>
         {favorites.map((movie) => (
-          <li key={movie.id} style={{ marginBottom: "10px" }}>
-            <img
-              src={movie.image}
-              alt={movie.title}
-              style={{ width: "50px", verticalAlign: "middle" }}
-            />
-            <Link to={`/movies/${movie.id}`} style={{ marginLeft: "10px" }}>
-              {movie.title}
-            </Link>
-            <span style={{ marginLeft: "10px" }}>{movie.duration} мин.</span>
-            <button
-              onClick={() => onRemoveFavorite(movie.id)}
-              style={{ marginLeft: "10px" }}
-            >
-              Удалить
-            </button>
-          </li>
+          <ListItem key={movie.id}>
+            <Flex align="center">
+              <Image
+                src={movie.image}
+                alt={movie.title}
+                boxSize="70px"
+                borderRadius="full"
+                objectFit="cover"
+              />
+              <Box ml={6}>
+                <Link
+                  as={RouterLink}
+                  to={`/movies/${movie.id}`}
+                  fontWeight="medium"
+                  fontSize="lg"
+                >
+                  {movie.title}
+                </Link>
+                <HStack spacing={1} fontSize="md" color="gray.600" mt={1}>
+                  <TimeIcon />
+                  <Text>{movie.duration} мин.</Text>
+                </HStack>
+              </Box>
+              <Button
+                onClick={() => onRemoveFavorite(movie.id)}
+                ml="auto"
+                variant="ghost"
+                color="gray.500"
+                _hover={{ color: "red.500", bg: "transparent" }}
+                fontWeight="normal"
+              >
+                Удалить
+              </Button>
+            </Flex>
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   );
 }
